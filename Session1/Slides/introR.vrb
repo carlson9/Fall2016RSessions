@@ -1,0 +1,17 @@
+\frametitle{Getting Help By Yourself}
+\begin{itemize}[<+->]
+\item StackOverflow (and Google)
+\item Help pages and FAQ exist on CRAN (\texttt{http://cran.wustl.edu}).
+    \item   Local ways to get help in your  \texttt{R} environment:
+            \begin{verbatim}
+help(ls);      ?ls
+help.search()
+args()
+View()
+browseEnv()
+search()
+date()
+summary()
+demo()
+            \end{verbatim}
+\end{itemize}
