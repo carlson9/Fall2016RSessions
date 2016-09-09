@@ -52,7 +52,7 @@
 x <- 7
 
 x
-
+ls()
 x <- 4
 
 x
@@ -80,15 +80,15 @@ is.na(x)
 
 class( x = 7 )
 
-rnorm( 10 )
+rnorm( 10 ,1,0)
 rnorm( 10, mean = 0, sd = 1)
 rnorm( n = 10, mean = 0, sd = 1)
 
 #Activity 2.1:
-#Hint: Use '' when doing searches with ?
+#Hint: Use ?'%%' ?'%/%' when doing searches with ?
 
 #Activity 2.2:
-
+?rep
 #3. Adding Complexity
 
 c(1,1,2,3,5,8)
@@ -108,20 +108,28 @@ fib <- c(fib, 13)
 
 #Activity 3.1:
 
+fib+primes
 
 #Important Functions:
-mean()
-sd()
-min()
-max()
+mean(fib)
+sd(fib)
+min(fib)
+which.min(fib)
+max(fib)
+which.max(fib)
 class()
 
 #Functions for activity 3.2:
-sort()
-length()
-summary()
-unique()
-paste()
+x<-rnorm(10)
+sort(x)
+order(x)
+length(x)
+summary(x)
+unique(fib)
+paste('hello','world')
+paste0('hello','world')
+paste('hello','world',sep='/')
+
 table(primes)
 
 #4. Making Comparisons
@@ -133,7 +141,7 @@ table(primes)
 4 > "Hello"
 
 "Hello" > 4 #What has happened here? 
-
+'a'<'b'
 5 >= -3
 
 8 <= 8
@@ -168,13 +176,17 @@ fib[i]
 fib[-4]
 
 primes[c(1,5)]
+primes[-c(1,5)]
+
 
 logicals <- c(F, T, F, F, T, T)
 
-fib[ fib > 4]
+
 fib[logicals]
+fib[ fib > 4]
 
 subset(fib, fib == 1)
+fib[fib==1]
 
 # Activity 5.1:
 
@@ -188,6 +200,7 @@ vect[unique(vect)]
 
 ( X <- matrix(c(1,2,3,4,5,6,7,8,9),ncol=3) )
 ( Z <- as.matrix(cbind(rep(1,length=5),rnorm(5))) )
+rbind(rep(1,5),rnorm(5))
 t(Z)%*%Z
 
 expand.grid(c(1,2),c(1,2),c(1,2))
@@ -242,13 +255,16 @@ head(data)
 data$state
 ?apply
 #find means of columns
+class(data$dem08)
+apply(data, 2, mean)
 
 install.packages('foreign')
 library(foreign)
 data <- read.dta('GerberGreenLarimer_APSR_2008_social_pressure.dta')
 head(data)
 #are males or females more likely to vote?
-
+mean(data[data$sex=='male','voted']=='Yes')
+mean(data[data$sex=='female','voted']=='Yes')
 
 ls()
 
