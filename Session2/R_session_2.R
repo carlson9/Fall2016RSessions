@@ -20,7 +20,7 @@ myfuncName <- function(argument1Name, argument2Name){  #name the function and ar
 }
 
 # what does this function do?
-my_sum_squares <- function( x, y ){ 
+my_sum_squares <- function( x, y){ 
   z <- sum(x^2,y^2)
   return(z)
 }
@@ -48,12 +48,12 @@ plot_my_sum_squares <- function( x, y ){
   # you can't alter variables in the global environment within the funciton
   
   #any plot functions in a function will be executed. more on plotting below
-  plot(1:10,1:10, type = "o")
+  plot(x,y, type = "o")
   
   #return is what the function gives back. It must be ONE object.  
   return(output)
 }
-my_sum_squares(1:10, 2:11)
+plot_my_sum_squares(1:10, 2:11)
 z
 Dave
 
@@ -69,7 +69,20 @@ my_sum_squares(1:10, 2:11)
 
 # 1. What are the steps?
 
+#name the function
+#define the function (use function())
+#define arguments x,y,power
+#power=2
+#
+
 # 2. What is the code?
+
+addPowers <- function(x,y,power=2){
+  z<-x^power+y^power
+  return(z)
+}
+
+addPowers <- function(x,y,power=2) x^power+y^power
 
 
 # let's (group) write a function that calculates the dot product of two vectors
@@ -79,13 +92,28 @@ my_sum_squares(1:10, 2:11)
 
 # 2. What is the code? 
 
+dotProduct <- function(x,y){
+  return(sum(x*y))
+}
+x<-1:10
+y<-11:20
+x*y
+dotProduct(x,y)
+x%*%y
 
 ### using lapply
 #consider the silly function below (notice inline definition without brackets is fine):
 sqrRt <- function(x) x^(.5)
 
 #using lapply, get the square root of the numbers 1:1000, save the output
+lapply(1:1000,sqrRt)
 
+factorial(9)
+fib <- function(n){
+  if(n==1) return(1)
+  if(n==2) return(1)
+  return(fib(n-1)+fib(n-2))
+}
 
 ## plotting
 
@@ -98,8 +126,10 @@ plot(1:10, seq(1,20,by=2),type='b')
 plot(1:10, seq(1,20,by=2),type='l')
 #change point styles
 plot(1:10, seq(1,20,by=2),type='b',pch=18)
+plot(1:10, seq(1,20,by=2),type='b',pch=20)
 #add labels
-plot(1:10, (1:10)^2,type='b',pch=18, main='My First Plot', xlab='x', ylab=expression(x^2))
+plot(1:10, (1:10)^2,type='b',pch=18,
+     main='My First Plot', xlab='x', ylab=expression(x^2))
 x<-1:10
 y<-x^2
 plot(x, y,type='b',pch=18, main='My First Plot', xlab='x', ylab=expression(x^2))
@@ -422,3 +452,5 @@ rug(early, col = b)
 rug(late, col = r)
 
 legend("topright", legend = c("1930-1950", "1990-2010"), col = c(b,r), bty = "n", pch = 15)
+
+

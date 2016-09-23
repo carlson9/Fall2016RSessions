@@ -30,6 +30,7 @@ mat[1, 1] # first row, first colum
 mat[1:5, ] # blank means everything. 
 
 head(mat) #just the first six rows
+tail(mat,8)
 
 # matrices are a subset of a more generic thing, called an array. 
 # Arrays have an unlimited number of dimensions
@@ -64,8 +65,8 @@ my_list #fewer rules than for vectors.
 
 # More options for picking out things
 #you can go list element-wise
-my_list[[1]]
-my_list[1]
+my_list[[3]]
+my_list[3] # don't do this
 
 attributes(my_list) # list has attributes, but we haven't set them
 length(my_list) # this reports the number of major sub-elements in the list
@@ -75,7 +76,8 @@ str(my_list) # now each part of the list has a name attribute
 my_list
 
 #lists can also be named.
-my_other_list <- list(person = "Dalston", months = month.name, stuff = my_list, voting = mat)
+my_other_list <- list(person = "Dalston", months = month.name, 
+                      stuff = my_list, voting = mat)
 str(my_other_list) #lets talk about what's going on here. 
 my_other_list$months[1]
 my_other_list$stuff[[1]]
@@ -91,13 +93,19 @@ my_other_list
 data.frame(vap, tv)
 turnout<-tv/vap
 my_df <- data.frame(vap, tv, turnout, state.abb, stringsAsFactors = FALSE) #can include character, numeric, and logical. 
+my_df2 <- data.frame(vap, tv, turnout, state.abb) #can include character, numeric, and logical. 
+
 
 my_df$state.abb #you can use dollar signs. 
 my_df[[4]] #Or double brackets.
 my_df[4] # or single brackets without commas (to choose columns)
 my_df[,4] # or single brackets with comma, like a matrix
 length(my_df) #this is ncol
+ncol(my_df)
+nrow(my_df)
 dim(my_df)
+dim(my_df)[2]
+
 names(my_df)
 str(my_df)
 
@@ -173,6 +181,13 @@ if(x > 4){
 } else {
   print("x is four")
 }
+y<-4
+if(x==4){
+  if(y>3){
+    print('yay')
+  }
+}
+
 
 #this doesnt handle vectors well
 if( turnout > .5 ){
@@ -182,6 +197,9 @@ if( turnout > .5 ){
 #for this, there is ifelse(condition, if-true, if-false)
 ifelse(turnout > .5, "lots of voters", "few voters")
 
+ifelse(x>4,'greater',
+       ifelse(x<4,'less','equal'))
+
 #this also works with vectors very nicely
 ifelse(turnout > .5, my_df$state.abb, "few voters")
 
@@ -189,10 +207,11 @@ ifelse(turnout > .5, my_df$state.abb, "few voters")
 
 #repeat: you need to include break, or else you will be stuck.
 plot(NULL, xlim=c(0, 100), ylim=c(0, 1)) # make a blank plot with the limits set by those vectors
-x = 1
+x = 0
 repeat {
-  y = 1 / x
   x = x + 1
+  y = 1 / x
+  
   points(x, y)
   if (x == 100) { 
     break 
@@ -232,7 +251,7 @@ for (monkey in c("Spider", "Howler", "Jacob")) {
 
 # or more commonly
 for (i in 1:20){
-  print(i)
+  print(i*i)
 }
 
 # for loops are very useful in many situations
@@ -244,6 +263,8 @@ for (i in 0:100) {
 # Sometimes you might not want to execute the commands for every element in the vector
 # use the next command to skip (you can also use the break)
 some.odds = NULL
+some.odds = c()
+some.odds = numeric()
 for (i in 1:200) {
   if (i %% 2 == 0) {
     next
@@ -257,10 +278,26 @@ some.odds
 # In class exercise!
 #
 #  1) Write code that will print every third number in [1, 100]
+
+for (i in 1:100) {
+  if (i %% 3 != 0) {
+    next
+  }
+  print(i)
+}
+
 #
 #  2) Flip a coin (hint: sample(c("H","T"), 1) and print what you get 
 #     until you get the same thing three times in a row
 #
+
+flips <- sample(c('H','T'),3,replace=TRUE)
+print(flips)
+while(flips[1]!=flips[2] | flips[2]!=flips[3]){
+  flips <- c(sample(c('H','T'),1),flips)
+  print(flips)
+}
+
 ###
 
 # So lets go back and talk about functions again
@@ -319,9 +356,16 @@ a
 
 ######## Exercises:
 
-# 1. Using the ANES data, write a for loop that creates a data frame for each race and then saves a .csv file.
+# 1. Using the ANES data, write a for loop that creates a data 
+#     frame for each race and then saves a .csv file.
 # hint: unique()
 # hint: paste()
+
+for(i in unique(anes$race)){
+  hold <- anes[anes$race==i,]
+  write.csv(hold, paste0('anes',i,'.csv'))
+}
+
 
 # 2. Create a function that determines whether the turnout in a given state is higher than average, and also tells you how much higher or lower than average it is.
 
