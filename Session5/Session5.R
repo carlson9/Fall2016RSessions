@@ -103,7 +103,7 @@ det(cbind(a,b,c))
 b<-c(2,2,2)
 det(cbind(a,b,c))
 #some intuition
-#define a 4x4 matrix as
+#define a 2x2 matrix as
 # a  b
 # c  d
 #the determinant is ad-bc
@@ -131,8 +131,7 @@ solve(t(A)%*%A)%*%t(A)%*%b
 
 library(faraway)
 data(teengamb)
-model1 <- lm(teengamb$gamble ~ teengamb$sex + teengamb$status
-             + teengamb$income + teengamb$verbal)
+model1 <- lm(gamble ~ .,data=teengamb)
 summary(model1)
 
 X <- cbind(1,teengamb$sex, teengamb$status,
@@ -183,8 +182,12 @@ casualty <- casualty[order(casualty, decreasing=FALSE)]
 
 newx <- log(casualty)[order(log(casualty),decreasing=FALSE)]
 
-plot(preds06[order(preds06[,1], decreasing=FALSE),1] ~ log(casualty), type='n', ylab = 'Predicted Ethnic Vote Share', main='2006', ylim=c(60,100))
-polygon(c(rev(newx), newx), c(rev(preds06[order(preds06[ ,3],decreasing=FALSE),3]), preds06[order(preds06[ ,2],decreasing=FALSE),2]), col = 'grey80', border = NA)
+plot(preds06[order(preds06[,1], decreasing=FALSE),1] ~ log(casualty), 
+     type='n', ylab = 'Predicted Ethnic Vote Share', main='2006', ylim=c(60,100))
+polygon(c(rev(newx), newx), c(rev(preds06[order(preds06[ ,3],decreasing=FALSE),
+                                          3]), preds06[order(preds06[ ,2],
+                                                             decreasing=FALSE),2]),
+        col = 'grey80', border = NA)
 lines(newx, preds06[order(preds06[ ,3],decreasing=FALSE),3],lty=2)
 lines(newx, preds06[order(preds06[ ,2],decreasing=FALSE),2],lty=2)
 lines(preds06[order(preds06[,1], decreasing=FALSE),1] ~ log(casualty), type='l')
@@ -224,7 +227,15 @@ points(prostate$lweight, prostate$lpsa, type = "p", pch = 19)
 
 
 #marginal effects plots (only if you need them now)
-interaction_plot_continuous <- function(model, effect, moderator, interaction, varcov="default", minimum="min", maximum="max", incr="default", num_points = 50, conf=.95, mean=FALSE, median=FALSE, alph=80, rugplot=T, histogram=T, title="Marginal effects plot", xlabel="Value of moderator", ylabel="Estimated marginal coefficient"){
+interaction_plot_continuous <- function(model, effect, 
+                                        moderator, interaction, 
+                                        varcov="default", minimum="min", 
+                                        maximum="max", incr="default", 
+                                        num_points = 50, conf=.95, mean=FALSE, 
+                                        median=FALSE, alph=80, rugplot=T, 
+                                        histogram=T, 
+                                        title="Marginal effects plot", 
+                                        xlabel="Value of moderator", ylabel="Estimated marginal coefficient"){
   
   # Define a function to make colors transparent
   makeTransparent<-function(someColor, alpha=alph){
@@ -356,7 +367,8 @@ CI_plot <- function(mod, horizontal=TRUE, alpha=.05, intercept=TRUE, ...){
     estimates <- estimates[-1]
     std.errors <- std.errors[-1]
   }
-  plot_max <- max(abs(c(estimates+std.errors*-1*qnorm((alpha)/2), estimates+std.errors*qnorm((alpha)/2))))*1.1
+  plot_max <- max(abs(c(estimates+std.errors*-1*qnorm((alpha)/2),
+                        estimates+std.errors*qnorm((alpha)/2))))*1.1
   if(horizontal){
     plot(x=1:length(estimates), y=estimates, ylim=c(-plot_max, plot_max), pch=20, xaxt='n', xlab='variable names')
     for(i in 1:length(std.errors)){
@@ -365,7 +377,8 @@ CI_plot <- function(mod, horizontal=TRUE, alpha=.05, intercept=TRUE, ...){
     abline(h=0, lty=2)
     axis(1, at=1:length(estimates), labels=names(estimates))
   }else{
-    plot(x=estimates, y=1:length(estimates), xlim=c(-plot_max, plot_max), pch=20, yaxt='n', ylab='variable names', ...)
+    plot(x=estimates, y=1:length(estimates), 
+         xlim=c(-plot_max, plot_max), pch=20, yaxt='n', ylab='variable names', ...)
     for(i in 1:length(std.errors)){
       lines(x=c(estimates[i]+std.errors[i]*c(-1, 1)*qnorm((alpha)/2)), y=c(i, i))
     }
