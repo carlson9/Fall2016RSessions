@@ -54,7 +54,7 @@ y <- x*3+rnorm(100) #adding noise, generating y
 plot(y~x, pch=18)
 abline(lm(y~x), col='red')
 
-summary(lm(y~x))
+summary(lm(y~x+x2))
 #why is the intercept so close to zero?
 abline(v=0)
 abline(h=0)
@@ -90,7 +90,7 @@ lines(seq(-4,4,by=.01),dnorm(seq(-4,4,by=.01)),lty=2)
 
 ?t.test
 set.seed(7)
-t.test(rnorm(10),rnorm(10))
+tt<-t.test(rnorm(10),rnorm(10))
 t.test(rnorm(1000),rnorm(1000))
 t.test(rnorm(1000),rnorm(1000,mean=1))
 t.test(rnorm(10),rnorm(10,mean=.2))
@@ -105,15 +105,27 @@ abline(v=0)
 abline(v=5)
 
 #exercise
-#write a function that takes n as an argument, FUN as an argument, p as an argument, and ... as an argument
+#write a function that takes n as an argument, 
+#FUN as an argument, p as an argument, and ... as an argument
 #FUN will be your distribution (e.g., rnorm)
-#sample two samples of size n from the distribution and return TRUE if p-value is less than p
+#sample two samples of size n from the distribution 
+#and return TRUE if p-value is less than p
 #the ... argument will be used for all other arguments to FUN
 #give every argument a default
 
+my_t_test <- function(n=1000, FUN=rnorm, p=.05, ...){
+  t.test(FUN(n, ...), FUN(n, ...))$p.value<p
+}
 
 ?dbinom
-#use the above to determine the probability that you would get heads 5 times in eight coin flips
+draws <- rbinom(10000,8,.5)
+mean(draws==5)
+#use the above to determine the probability that you would get heads
+#5 times in eight coin flips
+coin <- numeric()
+for(i in 1:10000){
+  coin <- c(coin, rbinom(1,8,.5)==5)
+}
 #what about 3 heads?
 
 
@@ -154,3 +166,16 @@ sample(0:1,1,prob=c(.3,.7)) #run this with a much larger n and take the mean (in
 #writing pseudo code is a good idea
 
 
+#function with arguments....
+#assign a door to have the car
+#check if the 
+montyhall <- function(switch_door=TRUE){
+  car <- sample(1:3,1)
+  contestant <- sample(1:3,1)
+  if(switch_door) return(contestant!=car)
+  return(contestant==car)
+}
+win <- numeric()
+for(i in 1:1000){
+  win <- c(win, montyhall())
+}
