@@ -5,13 +5,17 @@ setwd('~/Fall2016RSessions/Session7')
 #It is often used as an alternative to statistical inference
 #based on the assumption of a parametric model when that
 #assumption is in doubt, or where parametric inference is
-#impossible or requires complicated formulas for the calculation of standard errors.
+#impossible or requires complicated formulas for the calculation
+#of standard errors.
 #####
 #run and save a model
 #loop over 1000 iterations
 #within each iteration, randomly sample WOTH REPLACEMENT from your dataset to
 #   obtain a dataset of equal dimensions to the original data
 #run the same model as before, and store the estimated coefficients
+
+
+
 #outside of the loop, you should have a vector of estimates
 #find the mean of this vector
 #use this vector to obtain 95% credible intervals of your data (hint: quantile())
@@ -79,3 +83,14 @@ plot(density(mat[,2]))
 #if your function at x is greater than or equal to y, plot x,y and store results
 #calculate the area by calculating acceptance ratio
 #what is your estimate?
+
+circle <- function(x) sqrt(1-x^2)
+r <- seq(0,1,.01)
+plot(r,circle(r),type='l')
+plot(circle,r,type='l')
+
+x <- runif(10000,0,1)
+y <- runif(10000,0,1)
+
+ys <- circle(x)
+mean(ys > y)*4
