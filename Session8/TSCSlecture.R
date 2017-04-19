@@ -139,3 +139,16 @@ phtest(mod2, mod8)
 #random effects can be biased when correlations exist
 
 
+#Gaussian Processes
+library(tgp)
+set.seed(99)
+x = rnorm(100)
+t=1:100
+y=x+sin(t/5)
+plot(x,y)
+plot(t,y)
+mod <- bgp(X=cbind(x,t), Z=y, trace = TRUE)
+plot(mod)
+plot(mod, proj=c(1))
+plot(mod, proj=c(2))
+
