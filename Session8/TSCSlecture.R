@@ -21,9 +21,10 @@
 
 library(plm)
 ?plm
-
-
-data <- read.table('garrett1998.tab', header = TRUE)
+library(RCurl)
+dat_url <- getURL('https://raw.githubusercontent.com/carlson9/Fall2016RSessions/master/Session8/garrett1998.tab')
+data <- read.table(text = dat_url, row.names=NULL, header=TRUE)
+#data <- read.table('garrett1998.tab', header = TRUE)
 head(data)
 # #GDP growth as function of political factors and 
 #   economic controls. The political variables are 
